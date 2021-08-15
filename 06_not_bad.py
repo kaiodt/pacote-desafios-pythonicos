@@ -9,12 +9,20 @@ por 'good' e retorne a string resultante.
 Exemplo: 'The dinner is not that bad!' retorna 'The dinner is good!'
 """
 
+
 def not_bad(s):
-    # +++ SUA SOLUÇÃO +++
-    return
+    # O método .find retorna -1 quando a substring não é encontrada
+    idx_not = s.find('not')
+    idx_bad = s.find('bad')
+
+    if idx_not != -1 and idx_bad != -1 and idx_not < idx_bad:
+        return 'good'.join([s[:idx_not], s[idx_bad + 3:]])
+    else:
+        return s
 
 
 # --- Daqui para baixo são apenas códigos auxiliáries de teste. ---
+
 
 def test(f, in_, expected):
     """
@@ -39,3 +47,5 @@ if __name__ == '__main__':
     test(not_bad, 'This dinner is not that bad!', 'This dinner is good!')
     test(not_bad, 'This tea is not hot', 'This tea is not hot')
     test(not_bad, "It's bad yet not", "It's bad yet not")
+    test(not_bad, "It's sunny today!", "It's sunny today!")
+    test(not_bad, "Smoking is a bad habit.", "Smoking is a bad habit.")
