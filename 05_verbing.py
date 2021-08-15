@@ -10,12 +10,18 @@ Se o tamanho da string for menor que 3, não altere nada.
 Retorne o resultado da string.
 """
 
+
 def verbing(s):
-    # +++ SUA SOLUÇÃO +++
-    return
+    suffix = ''
+
+    if len(s) >= 3:
+        suffix = 'ly' if s.endswith('ing') else 'ing'
+
+    return s + suffix
 
 
 # --- Daqui para baixo são apenas códigos auxiliáries de teste. ---
+
 
 def test(f, in_, expected):
     """
