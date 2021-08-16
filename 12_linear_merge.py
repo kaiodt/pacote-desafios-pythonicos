@@ -9,12 +9,36 @@ A sua solução deve rodar em tempo linear, ou seja, deve fazer uma
 única passagem em cada uma das listas.
 """
 
+
+def solution1(list1, list2):
+    from heapq import merge
+    return list(merge(list1, list2))
+
+
+def solution2(list1, list2):
+    merged_list = []
+    i = j = 0
+
+    while i < len(list1) and j < len(list2):
+        if list1[i] <= list2[j]:
+            merged_list.append(list1[i])
+            i += 1
+        else:
+            merged_list.append(list2[j])
+            j += 1
+
+    # Apenas uma das listas é percorrida completamente, então basta
+    # anexar o restante da lista não percorrida à lista final.
+
+    return merged_list + list1[i:] + list2[j:]
+
+
 def linear_merge(list1, list2):
-    # +++ SUA SOLUÇÃO +++
-    return
+    return solution1(list1, list2)
 
 
 # --- Daqui para baixo são apenas códigos auxiliáries de teste. ---
+
 
 def test(f, in_, expected):
     """
