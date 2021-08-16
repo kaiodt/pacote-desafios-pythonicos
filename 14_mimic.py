@@ -39,32 +39,61 @@ Nota: o módulo padrão do python 'random' conta com o random.choice(list),
 método que escolhe um elemento aleatório de uma lista não vazia.
 """
 
+import string
 import random
 import sys
+from collections import defaultdict
+
+
+def get_word_list(filename):
+    with open(filename, 'r') as f:
+        word_list = []
+        for line in f:
+            word_list += [word.strip(string.punctuation).lower()
+                          for word in line.split()]
+
+    return word_list
 
 
 def mimic_dict(filename):
-  """Retorna o dicionario imitador mapeando cada palavra para a lista de
-  palavras subsequentes."""
-    # +++ SUA SOLUÇÃO +++
-  return
+    """Retorna o dicionario imitador mapeando cada palavra para a lista de
+    palavras subsequentes."""
+
+    word_list = get_word_list(filename)
+    mimic_dict = defaultdict(set)
+
+    for i in range(len(word_list) - 1):
+        mimic_dict[word_list[i]].add(word_list[i + 1])
+
+    mimic_dict[''] = {word_list[0], }
+    mimic_dict[word_list[-1]] = {'', }
+
+    return mimic_dict
 
 
-def print_mimic(mimic_dict, word):
-  """Dado o dicionario imitador e a palavra inicial, imprime texto de 200 palavras."""
-    # +++ SUA SOLUÇÃO +++
-  return
+def generate_mimic_text(mimic_dict, word):
+    """Dado o dicionario imitador e a palavra inicial, imprime texto de 200 palavras."""
+    num_words = 200
+    mimic_text = word
+
+    for _ in range(num_words - 1):
+        next_word = random.choice(list(mimic_dict[word]))
+        mimic_text = ' '.join([mimic_text, next_word])
+        word = next_word
+
+    return mimic_text
 
 
 # Chama mimic_dict() e print_mimic()
 def main():
-  if len(sys.argv) != 2:
-    print('Utilização: ./14_mimic.py file-to-read')
-    sys.exit(1)
+    if len(sys.argv) != 2:
+        print('Utilização: ./14_mimic.py file-to-read')
+        sys.exit(1)
 
-  dict = mimic_dict(sys.argv[1])
-  print_mimic(dict, '')
+    dict = mimic_dict(sys.argv[1])
+    mimic_text = generate_mimic_text(dict, '')
+    print(mimic_text)
 
 
 if __name__ == '__main__':
-  main()
+    main()
